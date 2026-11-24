@@ -1,7 +1,7 @@
 asyncapi: 3.0.0
 info:
   title: Contratos e Documentos — eventos publicados
-  version: 0.1.0
+  version: 0.2.0
   description: |
     Eventos que o módulo Contratos e Documentos publica na exchange `contratos.eventos`
     (Contrato de Integração §9.7). Publicado antes da implementação, conforme §14.1.
@@ -60,7 +60,7 @@ components:
               tipo: { const: contratos.contrato.assinado }
               dados:
                 type: object
-                required: [contratoId, empresaId, valorMensal]
+                required: [contratoId, empresaId, valorMensal, itens]
                 properties:
                   contratoId: { type: string, format: uuid }
                   empresaId: { type: string, format: uuid }
@@ -70,6 +70,27 @@ components:
                     minimum: 0
                     example: 1890.00
                     description: Mesma regra de 2 casas decimais do Money em contratos.yaml (OpenAPI)
+                  itens:
+                    type: array
+                    minItems: 1
+                    description: >-
+                      Serviços contratados, no formato que o Financeiro lê para criar a regra de
+                      recorrência (financeiro.asyncapi.yaml). Acrescentado na 0.2.0.
+                    items:
+                      type: object
+                      required: [servicoId, descricao, quantidade, valorUnitario]
+                      properties:
+                        servicoId:
+                          type: string
+                          format: uuid
+                          description: >-
+                            Item do catálogo de Produtos quando houver; senão, o id da linha do
+                            serviço contratado. Sempre preenchido.
+                        descricao: { type: string, example: Hospedagem gerenciada }
+                        quantidade: { type: number, exclusiveMinimum: 0, example: 1 }
+                        unidade: { type: [string, 'null'], description: Não registrada pelo Contratos; sempre nula }
+                        valorUnitario: { type: number, multipleOf: 0.01, minimum: 0, example: 1890.00 }
+                        franquia: { type: [number, 'null'], description: Não registrada pelo Contratos; sempre nula }
 
   schemas:
     Envelope:

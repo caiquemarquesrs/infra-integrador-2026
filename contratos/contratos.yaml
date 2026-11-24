@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Contratos e Documentos
-  version: 0.1.0
+  version: 0.2.0
   summary: >-
     Contrato do módulo Contratos e Documentos (Grupo 5). Cobre o fluxo mínimo dos
     Requisitos do módulo — cadastrar, consultar, status, documentos, editar,
@@ -102,8 +102,8 @@ paths:
       summary: Cadastrar contrato
       description: >-
         Exige `contratos.contrato.criar` (RF-01, RF-02). O número do contrato é
-        gerado pelo serviço; não é enviado pelo chamador. Nasce em `RASCUNHO`
-        (RF-05).
+        gerado pelo serviço; não é enviado pelo chamador. Nasce em
+        `EM_APROVACAO` (RF-05), pronto para `POST .../aprovar`.
       requestBody:
         required: true
         content:
